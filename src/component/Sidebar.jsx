@@ -1,6 +1,12 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiBarChart2, FiUsers, FiShoppingCart, FiSettings, FiX } from "react-icons/fi";
+import {
+    FiBarChart2,
+    FiUsers,
+    FiShoppingCart,
+    FiSettings,
+    FiX,
+} from "react-icons/fi";
 
 function Sidebar({ isOpen, setIsOpen }) {
     const location = useLocation();
@@ -14,6 +20,7 @@ function Sidebar({ isOpen, setIsOpen }) {
 
     return (
         <>
+            {/* Sidebar overlay for mobile */}
             {isOpen && (
                 <div
                     onClick={() => setIsOpen(false)}

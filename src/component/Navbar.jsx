@@ -15,7 +15,8 @@ export default function Navbar({ setIsOpen }) {
     const user = rawUser ? JSON.parse(rawUser) : null;
 
     return (
-        <header className="flex items-center justify-between bg-white shadow px-3 sm:px-6 py-3 rounded-lg">
+        <header className="flex items-center justify-between bg-white shadow px-3 sm:px-6 py-3 rounded-lg sticky top-0 z-40">
+            {/* Left Section */}
             <div className="flex items-center gap-3">
                 <button
                     onClick={() => setIsOpen((prev) => !prev)}
@@ -28,6 +29,7 @@ export default function Navbar({ setIsOpen }) {
                 </h2>
             </div>
 
+            {/* Right Section */}
             <div className="flex items-center space-x-3 sm:space-x-5">
                 <div className="flex items-center space-x-2 text-gray-600 text-sm sm:text-base">
                     <FiUser />
