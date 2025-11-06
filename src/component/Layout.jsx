@@ -1,22 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
-const Layout = ({ children }) => {
+export default function Layout({ children }) {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
-        <div className="flex h-screen w-screen bg-gray-100">
-
-            <div className="w-64 bg-[#0f172a] text-white flex flex-col">
-                <Sidebar />
-            </div>
-
-
-            <div className="flex flex-col flex-1 overflow-hidden">
-                <Navbar />
-                <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <div className="flex min-h-screen bg-gray-100">
+            <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+            <div className="flex-1 flex flex-col">
+                <Navbar setIsOpen={setIsOpen} />
+                <main className="p-4 sm:p-6 md:p-8 w-full overflow-x-hidden">{children}</main>
             </div>
         </div>
     );
-};
-
-export default Layout;
+}

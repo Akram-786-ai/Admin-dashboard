@@ -8,12 +8,8 @@ export default function Setting() {
         password: "",
     });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const handleChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,11 +17,12 @@ export default function Setting() {
     };
 
     return (
-        <div className="bg-white shadow p-6 rounded-xl max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-gray-700">Settings</h2>
+        <div className="bg-white shadow p-4 sm:p-6 rounded-xl max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6 text-gray-700 text-center sm:text-left">
+                Settings
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-                {/* Name */}
                 <div>
                     <label className="block text-sm text-gray-600 mb-1">Full Name</label>
                     <input
@@ -33,37 +30,34 @@ export default function Setting() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
-                {/* Email */}
                 <div>
-                    <label className="block text-sm text-gray-600 mb-1">Email Address</label>
+                    <label className="block text-sm text-gray-600 mb-1">Email</label>
                     <input
                         type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
-                {/* Theme Selector */}
                 <div>
                     <label className="block text-sm text-gray-600 mb-1">Theme</label>
                     <select
                         name="theme"
                         value={formData.theme}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
                     </select>
                 </div>
 
-                {/* Password Change */}
                 <div>
                     <label className="block text-sm text-gray-600 mb-1">New Password</label>
                     <input
@@ -72,16 +66,15 @@ export default function Setting() {
                         placeholder="Enter new password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
-                {/* Save Button */}
                 <div className="flex justify-end">
                     <button
                         type="submit"
                         className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-                        style={{ backgroundColor: '#4299E1' }}>
+                    >
                         Save Changes
                     </button>
                 </div>
