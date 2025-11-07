@@ -1,56 +1,81 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { FiLogOut, FiUser, FiMenu } from "react-icons/fi";
+import { Link, useLocation } from "react-router-dom";
+import {
+    FiBarChart2,
+    FiUsers,
+    FiShoppingCart,
+    FiSettings,
+    FiX,
+} from "react-icons/fi";
 
-export default function Navbar({ setIsOpen }) {
-    const navigate = useNavigate();
+function Sidebar({ isOpen, setIsOpen }) {
+    const location = useLocation();
 
-    const handleLogout = () => {
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("loggedInUser");
-        navigate("/login");
-    };
-
-    const rawUser = localStorage.getItem("loggedInUser");
-    const user = rawUser ? JSON.parse(rawUser) : null;
+    const menuItems = [
+        { name: "Dashboard", icon: <FiBarChart2 />, path: "/" },
+        { name: "Users", icon: <FiUsers />, path: "/users" },
+        { name: "Products", icon: <FiShoppingCart />, path: "/products" },
+        { name: "Settings", icon: <FiSettings />, path: "/setting" },
+    ];
 
     return (
-        <header className="sticky top-0 z-20 bg-white shadow-md">
-            <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 md:py-4">
-                {/* Left: Hamburger + Title */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                    <button
-                        onClick={() => setIsOpen((prev) => !prev)}
-                        className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                        aria-label="Toggle menu"
-                    >
-                        <FiMenu size={22} className="text-gray-700" />
-                    </button>
-                    <h1 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">
-                        Admin Dashboard
-                    </h1>
-                </div>
+        <>
+            {/* Overlay for mobile */}
+            {isOpen && (
+                <div
+                    onClick={() => setIsOpen(false)}
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40 md:hidden backdrop-blur-sm"
+                ></div>
+            )}
 
-                {/* Right: User + Logout */}
-                <div className="flex items-center gap-2 sm:gap-4">
-                    {/* User Info - Hidden on very small screens */}
-                    <div className="hidden xs:flex items-center gap-2 text-gray-600 text-sm md:text-base">
-                        <FiUser className="text-gray-500" />
-                        <span className="max-w-[100px] sm:max-w-[150px] truncate">
-                            {user?.fullName || user?.email || "Admin"}
-                        </span>
+            {/* Sidebar */}
+            <aside
+                className={`fixed md:static z-50 bg-gray-800 text-white w-64 h-full md:min-h-screen p-4 flex flex-col justify-between transform
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        transition-transform duration-300 ease-in-out md:translate-x-0 shadow-lg md:shadow-none`}
+            >
+                {/* Top Section */}
+                <div>
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-xl sm:text-2xl font-bold whitespace-nowrap">
+                            Admin Panel
+                        </h2>
+                        <button
+                            className="md:hidden text-gray-400 hover:text-white transition"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            <FiX size={22} />
+                        </button>
                     </div>
 
-                    {/* Logout Button */}
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors text-sm md:text-base"
-                    >
-                        <FiLogOut />
-                        <span className="hidden sm:inline">Logout</span>
-                    </button>
+                    {/* Navigation */}
+                    <nav className="flex flex-col space-y-1 sm:space-y-2">
+                        {menuItems.map((item) => (
+                            <Link
+                                key={item.name}
+                                to={item.path}
+                                onClick={() => setIsOpen(false)}
+                                className={`flex items-center px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 
+                  hover:bg-gray-700 hover:pl-5 ${location.pathname === item.path
+                                        ? "bg-gray-700 text-white"
+                                        : "text-gray-300"
+                                    }`}
+                            >
+                                <span className="mr-3 text-lg sm:text-xl">{item.icon}</span>
+                                <span className="text-sm sm:text-base">{item.name}</span>
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
-            </div>
-        </header>
+
+                {/* Footer Section (optional future use) */}
+                <div className="hidden md:block text-gray-400 text-xs text-center mt-4">
+                    © 2025 Admin Dashboard
+                </div>
+            </aside>
+        </>
     );
 }
+
+export default Sidebar;

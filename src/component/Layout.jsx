@@ -6,25 +6,31 @@ export default function Layout({ children }) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="flex min-h-screen bg-gray-100">
-            {/* Mobile Overlay */}
-            {isOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-                    onClick={() => setIsOpen(false)}
-                />
-            )}
+        <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
 
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-            <div className="flex-1 flex flex-col min-h-screen">
+
+            <div className="flex-1 flex flex-col w-full">
+
                 <Navbar setIsOpen={setIsOpen} />
-                <main className="flex-1 p-3 sm:p-4 md:p-6 lg:p-8 overflow-x-hidden bg-gray-50">
-                    <div className="max-w-7xl mx-auto">
-                        {children}
-                    </div>
+
+
+                <main
+                    className="
+        flex-1 
+        p-3 sm:p-5 md:p-8 
+        mt-[60px] md:mt-0   /* mobile pe navbar ke niche space */
+        w-full 
+        overflow-x-hidden 
+        transition-all 
+        duration-300
+      "
+                >
+                    {children}
                 </main>
             </div>
         </div>
+
     );
 }

@@ -7,24 +7,20 @@ import {
 export default function Dashboard() {
     const [users, setUsers] = useState([]);
     const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        Promise.all([
-            fetch("https://jsonplaceholder.typicode.com/users").then(r => r.json()),
-            fetch("https://fakestoreapi.com/products").then(r => r.json())
-        ])
-            .then(([usersData, productsData]) => {
-                setUsers(usersData);
-                setProducts(productsData);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then((res) => res.json())
+            .then((data) => setUsers(data));
+
+        fetch("https://fakestoreapi.com/products")
+            .then((res) => res.json())
+            .then((data) => setProducts(data));
     }, []);
 
     const cityData = users.reduce((acc, user) => {
-        const city = user.address?.city;
-        if (city) acc[city] = (acc[city] || 0) + 1;
+        const city = user.address.city;
+        acc[city] = (acc[city] || 0) + 1;
         return acc;
     }, {});
 
@@ -39,81 +35,63 @@ export default function Dashboard() {
 
     const COLORS = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6"];
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-64">
-                <div className="text-lg text-gray-600">Loading...</div>
-            </div>
-        );
-    }
-
     return (
-        <div className="space-y-6 md:space-y-8">
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-                <Card title="Total Users" value={users.length} color="blue" />
-                <Card title="Total Products" value={products.length} color="green" />
-                <Card title="Categories" value={pieData.length} color="yellow" />
-                <Card title="Active Users" value={Math.floor(users.length * 0.7)} color="purple" />
+        <div className="space-y-8 px-2 sm:px-4 md:px-6">
+            {/* Summary Cards Section */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                <Card title="Total Users" value={users.length} />
+                <Card title="Total Products" value={products.length} />
+                <Card title="Total Categories" value={pieData.length} />
+                <Card title="Active Users" value={Math.floor(users.length * 0.7)} />
             </div>
 
-            {/* Charts */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 md:gap-6">
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 <ChartCard title="Users per City">
-                    <ResponsiveContainer width="100%" height={250}>
-                        <BarChart data={chartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                                dataKey="name"
-                                tick={{ fontSize: 12 }}
-                                angle={-45}
-                                textAnchor="end"
-                                height={80}
-                            />
-                            <YAxis tick={{ fontSize: 12 }} />
-                            <Tooltip />
-                            <Bar dataKey="value" fill="#3b82f6" />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <div className="w-full h-60 sm:h-72 md:h-80">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={chartData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                                <YAxis tick={{ fontSize: 12 }} />
+                                <Tooltip />
+                                <Bar dataKey="value" fill="#3b82f6" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                 </ChartCard>
 
                 <ChartCard title="Products per Category">
-                    <ResponsiveContainer width="100%" height={250}>
-                        <PieChart>
-                            <Pie
-                                data={pieData}
-                                cx="50%"
-                                cy="50%"
-                                outerRadius={80}
-                                label={(entry) => entry.name}
-                                dataKey="value"
-                            >
-                                {pieData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                ))}
-                            </Pie>
-                            <Tooltip />
-                            <Legend wrapperStyle={{ fontSize: '12px' }} />
-                        </PieChart>
-                    </ResponsiveContainer>
+                    <div className="w-full h-60 sm:h-72 md:h-80">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={pieData}
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius="70%"
+                                    label
+                                    dataKey="value"
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Legend wrapperStyle={{ fontSize: "12px" }} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
                 </ChartCard>
             </div>
         </div>
     );
 }
 
-function Card({ title, value, color = "blue" }) {
-    const colors = {
-        blue: "bg-blue-500",
-        green: "bg-green-500",
-        yellow: "bg-yellow-500",
-        purple: "bg-purple-500"
-    };
-
+function Card({ title, value }) {
     return (
-        <div className="bg-white p-4 sm:p-5 md:p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-            <h4 className="text-gray-500 text-xs sm:text-sm mb-2">{title}</h4>
-            <p className={`text-2xl sm:text-3xl md:text-4xl font-bold ${colors[color].replace('bg-', 'text-')}`}>
+        <div className="bg-white p-4 sm:p-5 rounded-xl shadow hover:shadow-md transition text-center">
+            <h4 className="text-gray-500 text-xs sm:text-sm">{title}</h4>
+            <p className="text-xl sm:text-2xl font-bold text-blue-600 mt-1 sm:mt-2">
                 {value}
             </p>
         </div>
@@ -122,11 +100,9 @@ function Card({ title, value, color = "blue" }) {
 
 function ChartCard({ title, children }) {
     return (
-        <div className="bg-white p-4 sm:p-5 md:p-6 rounded-xl shadow-md">
-            <h3 className="text-base sm:text-lg font-semibold mb-4 text-gray-700">{title}</h3>
-            <div className="w-full overflow-x-auto">
-                {children}
-            </div>
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow hover:shadow-md transition">
+            <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{title}</h3>
+            {children}
         </div>
     );
 }

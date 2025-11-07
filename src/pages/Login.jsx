@@ -1,157 +1,131 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+
+function Login() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: "", password: "" });
-    const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState("");
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        setError("");
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [error, setError] = useState({});
+
+    const handleOnchange = (e) => {
+        setData({
+            ...data,
+            [e.target.name]: e.target.value,
+        });
     };
 
-    const handleSubmit = (e) => {
+    const register = () => {
+        navigate("/Signup");
+    };
+
+    const OnSubmit = (e) => {
         e.preventDefault();
 
-        if (!formData.email || !formData.password) {
-            setError("Please fill in all fields");
-            return;
-        }
+        const validationError = {};
+        if (!data.email.trim()) validationError.email = "Please enter your email";
+        if (!data.password.trim()) validationError.password = "Please enter your password";
 
-        // Simple validation
-        const savedUser = localStorage.getItem("registeredUser");
+        setError(validationError);
 
-        if (savedUser) {
-            const user = JSON.parse(savedUser);
-            if (user.email === formData.email && user.password === formData.password) {
-                localStorage.setItem("isLoggedIn", "true");
+        if (Object.keys(validationError).length === 0) {
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+
+            const user = users.find(
+                (user) =>
+                    user.email === data.email && user.password === data.password
+            );
+
+            if (user) {
                 localStorage.setItem("loggedInUser", JSON.stringify(user));
-                navigate("/");
-            } else {
-                setError("Invalid email or password");
-            }
-        } else {
-            // Demo login
-            if (formData.email === "admin@admin.com" && formData.password === "admin123") {
                 localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("loggedInUser", JSON.stringify({
-                    fullName: "Admin User",
-                    email: formData.email
-                }));
-                navigate("/");
+
+                alert(`Welcome back, ${user.fullName}!`);
+                navigate("/dashboard");
             } else {
-                setError("Invalid credentials. Try: admin@admin.com / admin123");
+                setError({ general: "Invalid email or password" });
             }
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to from-blue-500 via-purple-500 to-pink-500 p-4">
-            <div className="w-full max-w-md">
-                {/* Login Card */}
-                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    {/* Header */}
-                    <div className="bg-gradient-to from-blue-600 to-purple-600 px-6 sm:px-8 py-8 sm:py-10 text-center">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span className="text-3xl sm:text-4xl">🔐</span>
-                        </div>
-                        <h1 className="text-2xl sm:text-3xl font-bold text-white">Welcome Back!</h1>
-                        <p className="text-blue-100 text-sm sm:text-base mt-2">Login to your admin dashboard</p>
-                    </div>
+        <div className="flex justify-center items-center min-h-screen  from-pink-500 to-purple-600 px-4">
+            <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg">
+                <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center text-gray-800">
+                    Login
+                </h2>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5">
-                        {/* Error Message */}
-                        {error && (
-                            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-                                {error}
-                            </div>
+                <form onSubmit={OnSubmit}>
+
+                    <div className="mb-4">
+                        <label className="block mb-2 font-medium text-gray-700" htmlFor="email">
+                            Email
+                        </label>
+                        <input
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            name="email"
+                            type="email"
+                            id="email"
+                            value={data.email}
+                            placeholder="Enter your email"
+                            onChange={handleOnchange}
+                        />
+                        {error.email && (
+                            <span className="text-red-500 text-sm">{error.email}</span>
                         )}
-
-                        {/* Email Field */}
-                        <div className="space-y-2">
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                                <FiMail className="text-blue-600" />
-                                Email Address
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Enter your email"
-                                className="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            />
-                        </div>
-
-                        {/* Password Field */}
-                        <div className="space-y-2">
-                            <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                                <FiLock className="text-blue-600" />
-                                Password
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Enter your password"
-                                    className="w-full border border-gray-300 rounded-lg px-4 py-3 pr-12 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                                >
-                                    {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            className="w-full bg-gradient-to from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 focus:ring-4 focus:ring-blue-200 transition-all text-sm sm:text-base"
-                        >
-                            Login to Dashboard
-                        </button>
-
-                        {/* Divider */}
-                        <div className="relative my-6">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300"></div>
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
-                            </div>
-                        </div>
-
-                        {/* Signup Link */}
-                        <Link
-                            to="/signup"
-                            className="block w-full text-center py-3 border border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all text-sm sm:text-base"
-                        >
-                            Create New Account
-                        </Link>
-                    </form>
-
-                    {/* Demo Credentials */}
-                    <div className="bg-gray-50 px-6 sm:px-8 py-4 border-t">
-                        <p className="text-xs text-gray-600 text-center">
-                            <strong>Demo:</strong> admin@admin.com / admin123
-                        </p>
                     </div>
-                </div>
 
-                {/* Footer */}
-                <p className="text-center text-white text-sm mt-6">
-                    © 2024 Admin Dashboard. All rights reserved.
-                </p>
+
+                    <div className="mb-4">
+                        <label className="block mb-2 font-medium text-gray-700" htmlFor="password">
+                            Password
+                        </label>
+                        <input
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            name="password"
+                            type="password"
+                            id="password"
+                            value={data.password}
+                            placeholder="Enter your password"
+                            onChange={handleOnchange}
+                        />
+                        {error.password && (
+                            <span className="text-red-500 text-sm">{error.password}</span>
+                        )}
+                    </div>
+
+
+                    {error.general && (
+                        <p className="text-red-500 mb-2 text-center">{error.general}</p>
+                    )}
+
+
+                    <button style={{ backgroundColor: '#6B46C1' }}
+                        className="w-full bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 transition duration-300"
+                        type="submit"
+                    >
+                        Login
+                    </button>
+
+
+                    <p className="mt-4 text-center text-gray-700 text-sm sm:text-base">
+                        Don't have an account?{" "}
+                        <button style={{ backgroundColor: '#6B46C1' }}
+                            type="button"
+                            className="text- font-semibold hover:underline"
+                            onClick={register}
+                        >
+                            Register
+                        </button>
+                    </p>
+                </form>
             </div>
         </div>
     );
 }
+
+export default Login;
