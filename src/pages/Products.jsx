@@ -50,7 +50,7 @@ export default function Products() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 sm:gap-4">
                 {/* Category Filter */}
                 <select
-                    className="border p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    className="border sm:text-black p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     value={selectedCategory}
                     onChange={(e) => handleCategoryChange(e.target.value)}
                 >
@@ -63,7 +63,7 @@ export default function Products() {
 
                 {/* Sort Filter */}
                 <select
-                    className="border p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    className="border sm:text-black p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     value={sortBy}
                     onChange={(e) => handleSortChange(e.target.value)}
                 >

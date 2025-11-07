@@ -36,7 +36,7 @@ export default function Setting() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Enter full name"
-                        className="w-full border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -49,7 +49,7 @@ export default function Setting() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Enter your email"
-                        className="w-full border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -60,7 +60,7 @@ export default function Setting() {
                         name="theme"
                         value={formData.theme}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
@@ -76,7 +76,7 @@ export default function Setting() {
                         placeholder="Enter new password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
