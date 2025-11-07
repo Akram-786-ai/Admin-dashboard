@@ -15,33 +15,41 @@ export default function Navbar({ setIsOpen }) {
     const user = rawUser ? JSON.parse(rawUser) : null;
 
     return (
-        <header className="flex items-center justify-between bg-white shadow px-3 sm:px-6 py-3 rounded-lg sticky top-0 z-40">
-            {/* Left Section */}
-            <div className="flex items-center gap-3">
-                <button
-                    onClick={() => setIsOpen((prev) => !prev)}
-                    className="md:hidden p-2 rounded-lg bg-gray-100 hover:bg-gray-200"
-                >
-                    <FiMenu size={22} />
-                </button>
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-700">
-                    Admin Dashboard
-                </h2>
-            </div>
-
-            {/* Right Section */}
-            <div className="flex items-center space-x-3 sm:space-x-5">
-                <div className="flex items-center space-x-2 text-gray-600 text-sm sm:text-base">
-                    <FiUser />
-                    <span>{user?.fullName || user?.email || "Admin"}</span>
+        <header className="sticky top-0 z-20 bg-white shadow-md">
+            <div className="flex items-center justify-between px-3 sm:px-4 md:px-6 py-3 md:py-4">
+                {/* Left: Hamburger + Title */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                    <button
+                        onClick={() => setIsOpen((prev) => !prev)}
+                        className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                        aria-label="Toggle menu"
+                    >
+                        <FiMenu size={22} className="text-gray-700" />
+                    </button>
+                    <h1 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800">
+                        Admin Dashboard
+                    </h1>
                 </div>
-                <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-1 text-red-500 hover:text-red-700 transition text-sm sm:text-base"
-                >
-                    <FiLogOut />
-                    <span>Logout</span>
-                </button>
+
+                {/* Right: User + Logout */}
+                <div className="flex items-center gap-2 sm:gap-4">
+                    {/* User Info - Hidden on very small screens */}
+                    <div className="hidden xs:flex items-center gap-2 text-gray-600 text-sm md:text-base">
+                        <FiUser className="text-gray-500" />
+                        <span className="max-w-[100px] sm:max-w-[150px] truncate">
+                            {user?.fullName || user?.email || "Admin"}
+                        </span>
+                    </div>
+
+                    {/* Logout Button */}
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors text-sm md:text-base"
+                    >
+                        <FiLogOut />
+                        <span className="hidden sm:inline">Logout</span>
+                    </button>
+                </div>
             </div>
         </header>
     );

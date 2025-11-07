@@ -37,11 +37,11 @@ export default function Users() {
     const handlePageChange = (page) => setCurrentPage(page);
 
     return (
-        <div className="space-y-6">
-            <h2 className="text-2xl font-semibold">Users List</h2>
+        <div className="space-y-4 sm:space-y-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Users Management</h2>
 
             {/* Filters */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-between">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <input
                     type="text"
                     placeholder="Search by name..."
@@ -50,68 +50,107 @@ export default function Users() {
                         setSearch(e.target.value);
                         setCurrentPage(1);
                     }}
-                    className="border rounded-lg p-2 w-full sm:w-1/3 focus:ring-2 focus:ring-blue-400"
+                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="border rounded-lg p-2 w-full sm:w-1/4 focus:ring-2 focus:ring-blue-400"
+                    className="w-full sm:w-48 border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                     <option value="id">Sort by ID</option>
                     <option value="name">Sort by Name</option>
                 </select>
             </div>
 
-            {/* Table */}
-            <div className="bg-white shadow rounded-lg overflow-x-auto">
-                <table className="w-full border-collapse min-w-[600px]">
-                    <thead className="bg-blue-600 text-white text-sm sm:text-base">
-                        <tr>
-                            <th className="p-3 text-left">ID</th>
-                            <th className="p-3 text-left">Name</th>
-                            <th className="p-3 text-left">Email</th>
-                            <th className="p-3 text-left">City</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {paginated.length > 0 ? (
-                            paginated.map((user) => (
-                                <tr
-                                    key={user.id}
-                                    className="border-b hover:bg-blue-50 text-sm sm:text-base"
-                                >
-                                    <td className="p-3">{user.id}</td>
-                                    <td className="p-3">{user.name}</td>
-                                    <td className="p-3">{user.email}</td>
-                                    <td className="p-3">{user.address.city}</td>
-                                </tr>
-                            ))
-                        ) : (
+            {/* Desktop Table */}
+            <div className="hidden md:block bg-white shadow-md rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead className="bg-blue-600 text-white">
                             <tr>
-                                <td colSpan="4" className="p-4 text-center text-gray-500">
-                                    No users found
-                                </td>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">ID</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Name</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">Email</th>
+                                <th className="px-4 py-3 text-left text-sm font-semibold">City</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {paginated.length > 0 ? (
+                                paginated.map((user) => (
+                                    <tr key={user.id} className="border-b hover:bg-blue-50 transition-colors">
+                                        <td className="px-4 py-3 text-sm">{user.id}</td>
+                                        <td className="px-4 py-3 text-sm font-medium">{user.name}</td>
+                                        <td className="px-4 py-3 text-sm text-gray-600">{user.email}</td>
+                                        <td className="px-4 py-3 text-sm">{user.address.city}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="px-4 py-8 text-center text-gray-500">
+                                        No users found
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-3">
+                {paginated.length > 0 ? (
+                    paginated.map((user) => (
+                        <div key={user.id} className="bg-white p-4 rounded-lg shadow-md">
+                            <div className="flex justify-between items-start mb-2">
+                                <h3 className="font-semibold text-gray-800">{user.name}</h3>
+                                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                                    ID: {user.id}
+                                </span>
+                            </div>
+                            <p className="text-sm text-gray-600 mb-1">{user.email}</p>
+                            <p className="text-sm text-gray-500">📍 {user.address.city}</p>
+                        </div>
+                    ))
+                ) : (
+                    <div className="bg-white p-6 rounded-lg shadow text-center text-gray-500">
+                        No users found
+                    </div>
+                )}
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-center gap-2 mt-4 flex-wrap">
-                {Array.from({ length: totalPages }, (_, i) => (
+            {totalPages > 1 && (
+                <div className="flex justify-center items-center gap-1 sm:gap-2 flex-wrap">
                     <button
-                        key={i + 1}
-                        onClick={() => handlePageChange(i + 1)}
-                        className={`px-3 py-1 rounded text-sm sm:text-base ${currentPage === i + 1
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-200 hover:bg-gray-300"
-                            }`}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-2 sm:px-3 py-1.5 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                        {i + 1}
+                        Prev
                     </button>
-                ))}
-            </div>
+
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i + 1}
+                            onClick={() => handlePageChange(i + 1)}
+                            className={`px-2.5 sm:px-3.5 py-1.5 text-sm rounded-lg transition-colors ${currentPage === i + 1
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-200 hover:bg-gray-300"
+                                }`}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-2 sm:px-3 py-1.5 text-sm rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                        Next
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
