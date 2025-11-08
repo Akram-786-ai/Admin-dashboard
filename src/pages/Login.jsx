@@ -1,27 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 function Login() {
     const navigate = useNavigate();
-
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-    });
-
+    const [data, setData] = useState({ email: "", password: "" });
     const [error, setError] = useState({});
 
     const handleOnchange = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
+        setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    const register = () => {
-        navigate("/Signup");
-    };
+    const register = () => navigate("/Signup");
 
     const OnSubmit = (e) => {
         e.preventDefault();
@@ -44,7 +33,7 @@ function Login() {
                 localStorage.setItem("loggedInUser", JSON.stringify(user));
                 localStorage.setItem("isLoggedIn", "true");
 
-                alert(`Welcome back, ${user.fullName}!`);
+                alert(`Welcome back, ${user.username || "User"}!`);
                 navigate("/dashboard");
             } else {
                 setError({ general: "Invalid email or password" });
@@ -53,20 +42,19 @@ function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen  from-pink-500 to-purple-600 px-4">
-            <div className="bg-white p-6 sm:p-8 rounded-xl shadow-md w-full max-w-md sm:max-w-sm md:max-w-md lg:max-w-lg">
+        <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-pink-500 to-purple-600 px-4">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm sm:max-w-md md:max-w-lg">
                 <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-center text-gray-800">
                     Login
                 </h2>
 
-                <form onSubmit={OnSubmit}>
-
-                    <div className="mb-4">
-                        <label className="block mb-2 font-medium text-gray-700" htmlFor="email">
+                <form onSubmit={OnSubmit} className="space-y-4">
+                    <div>
+                        <label className="block mb-1 font-medium text-gray-700" htmlFor="email">
                             Email
                         </label>
                         <input
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900"
                             name="email"
                             type="email"
                             id="email"
@@ -75,17 +63,16 @@ function Login() {
                             onChange={handleOnchange}
                         />
                         {error.email && (
-                            <span className="text-red-500 text-sm">{error.email}</span>
+                            <p className="text-red-500 text-sm mt-1">{error.email}</p>
                         )}
                     </div>
 
-
-                    <div className="mb-4">
-                        <label className="block mb-2 font-medium text-gray-700" htmlFor="password">
+                    <div>
+                        <label className="block mb-1 font-medium text-gray-700" htmlFor="password">
                             Password
                         </label>
                         <input
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                            className="w-full p-2 sm:p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white text-gray-900"
                             name="password"
                             type="password"
                             id="password"
@@ -94,33 +81,29 @@ function Login() {
                             onChange={handleOnchange}
                         />
                         {error.password && (
-                            <span className="text-red-500 text-sm">{error.password}</span>
+                            <p className="text-red-500 text-sm mt-1">{error.password}</p>
                         )}
                     </div>
 
-
                     {error.general && (
-                        <p className="text-red-500 mb-2 text-center">{error.general}</p>
+                        <p className="text-red-500 text-sm text-center">{error.general}</p>
                     )}
 
-
-                    <button style={{ backgroundColor: '#6B46C1' }}
-                        className="w-full bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 transition duration-300"
+                    <button
+                        className="w-full !bg-black  text-white p-2 sm:p-3 rounded-lg hover:bg-blue-500 transition duration-300"
                         type="submit"
                     >
                         Login
                     </button>
 
-
                     <p className="mt-4 text-center text-gray-700 text-sm sm:text-base">
                         Don't have an account?{" "}
-                        <button style={{ backgroundColor: '#6B46C1' }}
-                            type="button"
-                            className="text- font-semibold hover:underline"
+                        <span
+                            className="text-black font-medium cursor-pointer hover:underline"
                             onClick={register}
                         >
                             Register
-                        </button>
+                        </span>
                     </p>
                 </form>
             </div>

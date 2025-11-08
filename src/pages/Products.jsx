@@ -20,22 +20,17 @@ export default function Products() {
 
     const handleCategoryChange = (category) => {
         setSelectedCategory(category);
-        if (category === "All") {
-            setFilteredProducts(products);
-        } else {
-            setFilteredProducts(products.filter((p) => p.category === category));
-        }
+        if (category === "All") setFilteredProducts(products);
+        else setFilteredProducts(products.filter((p) => p.category === category));
     };
 
     const handleSortChange = (sortType) => {
         setSortBy(sortType);
         let sorted = [...filteredProducts];
-
         if (sortType === "price-asc") sorted.sort((a, b) => a.price - b.price);
         else if (sortType === "price-desc") sorted.sort((a, b) => b.price - a.price);
         else if (sortType === "name-asc") sorted.sort((a, b) => a.title.localeCompare(b.title));
         else if (sortType === "name-desc") sorted.sort((a, b) => b.title.localeCompare(a.title));
-
         setFilteredProducts(sorted);
     };
 
@@ -50,7 +45,7 @@ export default function Products() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3 sm:gap-4">
                 {/* Category Filter */}
                 <select
-                    className="border sm:text-black p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    className="border border-gray-300 bg-white text-gray-800 p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     value={selectedCategory}
                     onChange={(e) => handleCategoryChange(e.target.value)}
                 >
@@ -63,7 +58,7 @@ export default function Products() {
 
                 {/* Sort Filter */}
                 <select
-                    className="border sm:text-black p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    className="border border-gray-300 bg-white text-gray-800 p-2 sm:p-2.5 md:p-3 rounded-lg shadow-sm w-full sm:w-1/3 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                     value={sortBy}
                     onChange={(e) => handleSortChange(e.target.value)}
                 >
@@ -80,7 +75,7 @@ export default function Products() {
                 {filteredProducts.map((p) => (
                     <div
                         key={p.id}
-                        className="bg-white p-3 sm:p-4 rounded-xl shadow hover:shadow-lg transition text-center"
+                        className="bg-white p-3 sm:p-4 rounded-xl shadow hover:shadow-lg transition text-center border border-gray-200"
                     >
                         <img
                             src={p.image}
@@ -96,6 +91,5 @@ export default function Products() {
                 ))}
             </div>
         </div>
-
     );
 }

@@ -21,7 +21,7 @@ export default function Setting() {
     };
 
     return (
-        <div className="bg-white shadow p-4 sm:p-6 md:p-8 rounded-xl max-w-md sm:max-w-2xl md:max-w-3xl mx-auto mt-6 sm:mt-8">
+        <div className="bg-white shadow p-4 sm:p-6 md:p-8 rounded-xl max-w-md sm:max-w-2xl md:max-w-3xl mx-auto mt-6 sm:mt-8 border border-gray-200">
             <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-700 text-center sm:text-left">
                 Settings
             </h2>
@@ -36,7 +36,7 @@ export default function Setting() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Enter full name"
-                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-white border border-gray-300 text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -49,7 +49,7 @@ export default function Setting() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="Enter your email"
-                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-white border border-gray-300 text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -60,7 +60,7 @@ export default function Setting() {
                         name="theme"
                         value={formData.theme}
                         onChange={handleChange}
-                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-white border border-gray-300 text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="light">Light</option>
                         <option value="dark">Dark</option>
@@ -76,7 +76,7 @@ export default function Setting() {
                         placeholder="Enter new password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="w-full sm:text-black border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-white border border-gray-300 text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -91,6 +91,5 @@ export default function Setting() {
                 </div>
             </form>
         </div>
-
     );
 }
