@@ -52,13 +52,13 @@ export default function Users() {
                         setSearch(e.target.value);
                         setCurrentPage(1);
                     }}
-                    className="border rounded-lg p-2 sm:p-3 sm:text-black text-sm sm:text-base w-full sm:w-1/2 md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="border border-gray-300 bg-white text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base w-full sm:w-1/2 md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="border rounded-lg p-2 sm:p-3 sm:text-black text-sm sm:text-base w-full sm:w-1/2 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    className="border border-gray-300 bg-white text-gray-800 rounded-lg p-2 sm:p-3 text-sm sm:text-base w-full sm:w-1/2 md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="id">Sort by ID</option>
                     <option value="name">Sort by Name</option>
@@ -81,7 +81,7 @@ export default function Users() {
                             paginated.map((user) => (
                                 <tr
                                     key={user.id}
-                                    className="border-b hover:bg-blue-50 sm:text-black transition-colors duration-200"
+                                    className="border-b hover:bg-blue-50 transition-colors duration-200 text-gray-800"
                                 >
                                     <td className="p-3">{user.id}</td>
                                     <td className="p-3">{user.name}</td>
@@ -91,7 +91,7 @@ export default function Users() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="4" className="p-4 text-center sm:text-black text-gray-500">
+                                <td colSpan="4" className="p-4 text-center text-gray-500">
                                     No users found
                                 </td>
                             </tr>
@@ -116,6 +116,5 @@ export default function Users() {
                 ))}
             </div>
         </div>
-
     );
 }
